@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>EVTNantes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+</head>
+
+<body>
+    <div id="app" class="container">
+        <div v-for="event in events" class="event">
+            <h2 class="header">{{ event.fields.nom }}</h2>
+            <div class="row">
+                <div class="card horizontal">
+                    <div class="card-image">
+                        <img v-bind:src="event.fields.media_1">
+                    </div>
+                    <div class="card-stacked">
+                        <div class="card-content">
+                            <p>Heure : {{ event.fields.heure_debut }}</p>
+                            <p>Lieu de rendez-vous : {{ event.fields.lieu }} --- {{ event.fields.lieu }}</p>
+                            <p>Heure : {{ event.fields.heure_debut }}</p>
+                            <p>{{ event.fields.description }}</p>
+                        </div>
+                        <div class="card-action">
+                            <a v-bind:href="event.fields.lien_agenda" target="blank">Agenda</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vue"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data() {
+                return {
+                    events: null
+                }
+            },
+            mounted() {
+                axios
+                    .get(
+                        'https://data.nantesmetropole.fr/api/records/1.0/search/?dataset=244400404_agenda-evenements-nantes-nantes-metropole&facet=emetteur&facet=rubrique&facet=lieu&facet=ville'
+                    )
+                    .then(response => (this.events = response.data.records))
+            }
+        })
+    </script>
+
+</body>
+
+</html>
