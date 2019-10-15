@@ -8,36 +8,71 @@
 </head>
 
 <body>
-    <div id="app" class="container">
-        <div v-for="event in events" class="event">
-            <h2 class="header">{{ event.fields.nom }}</h2>
-            <div class="row">
-                <div class="card horizontal">
-                    <div class="card-image">
-                        <img v-bind:src="event.fields.media_1">
-                    </div>
-                    <div class="card-stacked">
-                        <div class="card-content">
-                            <p>Heure : {{ event.fields.heure_debut }}</p>
-                            <p>Lieu de rendez-vous : {{ event.fields.lieu }} --- {{ event.fields.lieu }}</p>
-                            <p>Heure : {{ event.fields.heure_debut }}</p>
-                            <p>{{ event.fields.description }}</p>
+    <div id="app">
+        <nav>
+            <div class="nav-wrapper blue center">
+                EVTNantes
+                <a class="waves-effect waves-light btn" v-bind:class="{ 'active': layout == 'Affichage1'}"
+                    v-on:click="layout = 'Affichage1'">Affichage 1</a>
+                <a class="waves-effect waves-light btn" v-bind:class="{ 'active': layout == 'Affichage2'}"
+                    v-on:click="layout = 'Affichage2'">Affichage 2</a>
+            </div>
+        </nav>
+
+        <div v-if="layout == 'Affichage1'" class="container Affichage1">
+            <div v-for="event in events" class="event">
+                <h2 class="header">{{ event.fields.nom }}</h2>
+                <div class="row">
+                    <div class="card horizontal">
+                        <div class="card-image">
+                            <img v-bind:src="event.fields.media_1">
                         </div>
-                        <div class="card-action">
-                            <a v-bind:href="event.fields.lien_agenda" target="blank">Agenda</a>
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <p>Date : {{ event.fields.date }}</p>
+                                <p>Heure : {{ event.fields.heure_debut }}</p>
+                                <p>Lieu de rendez-vous : {{ event.fields.lieu }} --- {{ event.fields.lieu }}</p>
+                                <p>{{ event.fields.description }}</p>
+                            </div>
+                            <div class="card-action">
+                                <a v-bind:href="event.fields.lien_agenda" target="blank">Agenda</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div v-if="layout == 'Affichage2'" class="container Affichage2">
+            <div v-for="event in events" class="event">
+                <h2 class="header">{{ event.fields.nom }}</h2>
+                <div class="row">
+                    <div class="card horizontal">
+                        <div class="card-image">
+                            <img v-bind:src="event.fields.media_1">
+                        </div>
+                        <div class="card-stacked">
+                            <div class="card-content">
+                                <p>{{ event.fields.description }}</p>
+                            </div>
+                            <div class="card-action">
+                                <a v-bind:href="event.fields.lien_agenda" target="blank">Agenda</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://unpkg.com/vue"></script>
     <script>
-        new Vue({
+        const vm = new Vue({
             el: '#app',
             data() {
                 return {
+                    layout : 'Affichage1',
                     events: null
                 }
             },
@@ -52,5 +87,7 @@
     </script>
 
 </body>
+
+
 
 </html>
